@@ -3,247 +3,303 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aryan Tiwari | ML & Systems Engineer</title>
+    <title>Aryan Tiwari | Systems & ML</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: {
-                        sans: ['"Inter"', 'sans-serif'],
-                        mono: ['"JetBrains Mono"', 'monospace'],
-                    },
+                    fontFamily: { sans: ['"Figtree"', 'sans-serif'], mono: ['"JetBrains Mono"', 'monospace'] },
                     colors: {
-                        zinc: {
-                            50: '#fafafa',
-                            100: '#f4f4f5',
-                            200: '#e4e4e7',
-                            300: '#d4d4d8',
-                            800: '#27272a',
-                            900: '#18181b',
-                        }
+                        canvas: '#FBFBFA', // Warm editorial off-white
+                        earth: { 100: '#ECEAE4', 200: '#D9D5CB', 800: '#4A463F', 900: '#2D2A26' }
+                    },
+                    animation: { 'mesh-flow': 'mesh-flow 15s ease-in-out infinite alternate' },
+                    keyframes: {
+                        'mesh-flow': { '0%': { transform: 'translate(0, 0) scale(1)' }, '100%': { transform: 'translate(-2%, 3%) scale(1.05)' } }
                     }
                 }
             }
         }
     </script>
     <style>
-        /* Techy Grid Background */
-        .bg-grid {
-            background-image: linear-gradient(to right, rgba(0,0,0,0.05) 1px, transparent 1px),
-                              linear-gradient(to bottom, rgba(0,0,0,0.05) 1px, transparent 1px);
-            background-size: 24px 24px;
-        }
+        body { background-color: #FBFBFA; }
         
-        /* Snappy Reveal Animation */
-        .reveal {
-            opacity: 0;
-            transform: translateY(15px);
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        /* Subtle Ambient Fluid Mesh */
+        .ambient-mesh {
+            position: fixed; inset: 0; z-index: 0; pointer-events: none;
+            background: 
+                radial-gradient(circle at 15% 50%, rgba(217, 213, 203, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 85% 30%, rgba(228, 222, 211, 0.5) 0%, transparent 50%);
+            filter: blur(60px);
         }
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
+
+        /* Glassmorphism Focus Overlay */
+        #focusOverlay {
+            position: fixed; inset: 0; z-index: 40;
+            background: rgba(251, 251, 250, 0.4);
+            backdrop-filter: blur(8px);
+            opacity: 0; pointer-events: none;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        #focusOverlay.active { opacity: 1; pointer-events: auto; }
+
+        /* The Command Palette */
+        .command-palette {
+            position: relative; z-index: 50;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+        }
+        .command-palette.active {
+            transform: translateY(-5vh) scale(1.02);
+            box-shadow: 0 25px 50px -12px rgba(45, 42, 38, 0.15);
+        }
+
+        /* Bento Cards */
+        .bento-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(217, 213, 203, 0.5);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .bento-card:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.9);
+            border-color: rgba(217, 213, 203, 0.9);
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.05);
+        }
+
+        /* Modals */
+        .modal-overlay {
+            backdrop-filter: blur(12px);
+            transition: opacity 0.3s ease;
         }
     </style>
 </head>
-<body class="bg-zinc-50 text-zinc-900 antialiased selection:bg-zinc-900 selection:text-white relative min-h-screen">
+<body class="text-earth-900 antialiased selection:bg-earth-900 selection:text-canvas min-h-screen relative">
 
-    <!-- Subtle Blueprint Grid -->
-    <div class="fixed inset-0 bg-grid pointer-events-none z-0"></div>
-    
-    <!-- Top Gradient Fade for Readability -->
-    <div class="fixed top-0 left-0 w-full h-32 bg-gradient-to-b from-zinc-50 to-transparent pointer-events-none z-0"></div>
+    <div class="ambient-mesh animate-mesh-flow"></div>
+    <div id="focusOverlay" onclick="defocusSearch()"></div>
 
-    <div class="max-w-5xl mx-auto px-6 py-16 relative z-10">
+    <!-- Top Identity -->
+    <nav class="relative z-10 max-w-4xl mx-auto px-6 pt-10 pb-4 flex justify-between items-center">
+        <div>
+            <h1 class="text-lg font-bold tracking-tight">Aryan Tiwari</h1>
+            <p class="text-xs font-mono text-earth-800/60 mt-0.5">ML & Systems Engineer</p>
+        </div>
+        <div class="flex gap-4 text-earth-800/70">
+            <a href="https://github.com/Aryan-DScodes" target="_blank" class="hover:text-earth-900 transition-colors"><i data-lucide="github" class="w-5 h-5"></i></a>
+            <a href="https://www.linkedin.com/in/aryan-tiwari2409" target="_blank" class="hover:text-blue-600 transition-colors"><i data-lucide="linkedin" class="w-5 h-5"></i></a>
+        </div>
+    </nav>
+
+    <main class="relative z-10 max-w-4xl mx-auto px-6 pt-12 pb-20">
         
-        <!-- Hero Section -->
-        <header class="mb-16 reveal">
-            <div class="flex items-center gap-3 mb-4">
-                <div class="flex relative w-3 h-3 justify-center items-center">
-                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                    <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+        <!-- Centerpiece: Command Palette -->
+        <div class="max-w-2xl mx-auto w-full mb-20 command-palette" id="searchContainer">
+            
+            <div class="bg-white rounded-2xl shadow-sm border border-earth-200 overflow-hidden flex flex-col">
+                <!-- Search Input -->
+                <form onsubmit="handleSearch(event)" class="flex items-center px-4 py-4 gap-3 relative">
+                    <i data-lucide="sparkles" class="w-5 h-5 text-earth-800/40"></i>
+                    <input 
+                        type="text" 
+                        id="aiInput" 
+                        placeholder="Ask about my systems, edge deployments, or competitive rigor..." 
+                        class="flex-1 bg-transparent border-none outline-none text-base sm:text-lg text-earth-900 placeholder:text-earth-800/40 font-medium"
+                        onfocus="focusSearch()"
+                        autocomplete="off"
+                    />
+                    <div class="hidden sm:flex items-center gap-1 font-mono text-[10px] text-earth-800/40 bg-earth-100 px-2 py-1 rounded">
+                        <span>Press</span><strong class="font-bold">Enter ↵</strong>
+                    </div>
+                </form>
+
+                <!-- AI Response Area (Hidden by default) -->
+                <div id="responseArea" class="hidden border-t border-earth-100 bg-canvas/50 p-5">
+                    <div class="flex items-start gap-3">
+                        <div class="w-6 h-6 rounded-full bg-earth-900 text-canvas flex items-center justify-center shrink-0 mt-0.5">
+                            <i data-lucide="bot" class="w-3.5 h-3.5"></i>
+                        </div>
+                        <div id="responseText" class="text-sm leading-relaxed text-earth-800 font-medium">
+                            <!-- Streamed text goes here -->
+                        </div>
+                    </div>
                 </div>
-                <span class="font-mono text-xs font-medium text-zinc-500 tracking-wider uppercase">System Status: Online</span>
-            </div>
-            
-            <h1 class="text-5xl font-bold tracking-tight mb-4 text-zinc-900">Aryan Tiwari.</h1>
-            <h2 class="text-xl font-medium text-zinc-600 mb-6 font-mono text-sm">>> Machine_Learning & Systems_Engineer</h2>
-            
-            <p class="text-base text-zinc-600 leading-relaxed max-w-2xl">
-                B.Tech in Electronics & Communication (Advanced Comm Tech) at LNCT, Bhopal. 
-                I build scalable AI infrastructure, robust computer vision pipelines, and secure data systems.
-            </p>
-            
-            <div class="mt-8 flex gap-4">
-                <!-- GitHub Button -->
-                <a href="https://github.com/Aryan-DScodes" target="_blank" class="flex items-center gap-2 px-4 py-2 bg-zinc-900 text-white rounded-md hover:bg-zinc-800 transition-colors text-sm font-medium">
-                    <i data-lucide="github" class="w-4 h-4"></i> GitHub
-                </a>
-                
-                <!-- LinkedIn Button -->
-                <a href="https://www.linkedin.com/in/aryan-tiwari2409" target="_blank" class="flex items-center gap-2 px-4 py-2 bg-white border border-zinc-200 text-zinc-900 hover:border-zinc-400 hover:bg-zinc-50 transition-all text-sm font-medium shadow-sm">
-                    <i data-lucide="linkedin" class="w-4 h-4"></i> LinkedIn
-                </a>
-                
-                <!-- Contact Button -->
-                <a href="mailto:aryantiw.04@gmail.com" class="flex items-center gap-2 px-4 py-2 bg-white border border-zinc-200 text-zinc-900 hover:border-zinc-400 hover:bg-zinc-50 transition-all text-sm font-medium shadow-sm">
-                    <i data-lucide="mail" class="w-4 h-4"></i> Contact
-                </a>
-            </div>
-        </header>
-
-        <!-- Main Content Grid -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            
-            <!-- Left Column: Experience & Rigor -->
-            <div class="lg:col-span-4 space-y-8 reveal">
-                
-                <section>
-                    <div class="flex items-center gap-2 mb-6 border-b border-zinc-200 pb-2">
-                        <i data-lucide="terminal" class="w-4 h-4 text-zinc-400"></i>
-                        <h3 class="font-mono text-xs font-bold uppercase tracking-widest text-zinc-900">Experience</h3>
-                    </div>
-                    
-                    <div class="bg-white p-5 border border-zinc-200 rounded-lg shadow-sm">
-                        <div class="flex justify-between items-start mb-2">
-                            <h4 class="text-sm font-bold text-zinc-900">SDE Intern</h4>
-                            <span class="font-mono text-[10px] bg-zinc-100 text-zinc-600 px-2 py-1 rounded">3 MONTHS</span>
-                        </div>
-                        <p class="text-xs text-zinc-500 mb-3 font-mono">Entrepreneurs Woods (KLIC)</p>
-                        <p class="text-sm text-zinc-600 leading-relaxed">
-                            Engineered data manipulation workflows and designed business intelligence dashboards to drive strategic decision-making in a startup incubation environment.
-                        </p>
-                    </div>
-                </section>
-
-                <section>
-                    <div class="flex items-center gap-2 mb-6 border-b border-zinc-200 pb-2">
-                        <i data-lucide="cpu" class="w-4 h-4 text-zinc-400"></i>
-                        <h3 class="font-mono text-xs font-bold uppercase tracking-widest text-zinc-900">Technical Rigor</h3>
-                    </div>
-                    
-                    <div class="space-y-3 bg-white p-5 border border-zinc-200 rounded-lg shadow-sm text-sm text-zinc-600 leading-relaxed">
-                        <div class="flex gap-3 items-start">
-                            <span class="text-zinc-300 font-mono text-xs mt-0.5">01</span>
-                            <p>Competitive Programming: Qualified HackWithInfy Round 2.</p>
-                        </div>
-                        <div class="flex gap-3 items-start">
-                            <span class="text-zinc-300 font-mono text-xs mt-0.5">02</span>
-                            <p>Cleared TCS National Qualifier Test (NQT).</p>
-                        </div>
-                        <div class="flex gap-3 items-start">
-                            <span class="text-zinc-300 font-mono text-xs mt-0.5">03</span>
-                            <p>Data Science & AI Summer Fellowship Applicant (IIT Madras).</p>
-                        </div>
-                        <div class="flex gap-3 items-start">
-                            <span class="text-zinc-300 font-mono text-xs mt-0.5">04</span>
-                            <p>Certified in Data Structures and Algorithms in Python (NPTEL).</p>
-                        </div>
-                    </div>
-                </section>
             </div>
 
-            <!-- Right Column: Projects -->
-            <div class="lg:col-span-8 reveal">
-                
-                <div class="flex items-center gap-2 mb-6 border-b border-zinc-200 pb-2">
-                    <i data-lucide="folder-git-2" class="w-4 h-4 text-zinc-400"></i>
-                    <h3 class="font-mono text-xs font-bold uppercase tracking-widest text-zinc-900">Deployed Systems</h3>
+            <!-- Pill Suggestions (Fade out when focused) -->
+            <div id="pillSuggestions" class="flex flex-wrap justify-center gap-2 mt-5 transition-opacity duration-300">
+                <button onclick="setQuery('Why should I hire Aryan?')" class="px-4 py-1.5 rounded-full bg-white/60 border border-earth-200 text-xs font-medium text-earth-800 hover:bg-white transition-all shadow-sm">Why hire Aryan?</button>
+                <button onclick="setQuery('How did he optimize FOD detection for Edge UAVs?')" class="px-4 py-1.5 rounded-full bg-white/60 border border-earth-200 text-xs font-medium text-earth-800 hover:bg-white transition-all shadow-sm">FOD Edge Deployment</button>
+                <button onclick="setQuery('What is the latency on the Open Shield Gateway?')" class="px-4 py-1.5 rounded-full bg-white/60 border border-earth-200 text-xs font-medium text-earth-800 hover:bg-white transition-all shadow-sm">Open Shield Latency</button>
+            </div>
+        </div>
+
+        <!-- Warm Bento Grid (Below the fold) -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5 relative z-10" id="bentoGrid">
+            
+            <!-- Bento 1 -->
+            <div class="bento-card p-6 rounded-2xl md:col-span-1 flex flex-col justify-between h-48" onclick="openModal('modal-tech')">
+                <div>
+                    <h3 class="font-mono text-xs font-bold uppercase tracking-widest text-earth-800/60 mb-2">Systems Stack</h3>
+                    <p class="text-lg font-semibold text-earth-900 leading-tight">FastAPI, TensorRT, Redis & PyTorch.</p>
                 </div>
+                <div class="flex items-center gap-2 text-xs font-medium text-earth-800/50 mt-4">
+                    <span>View Architectures</span> <i data-lucide="arrow-right" class="w-3 h-3"></i>
+                </div>
+            </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                    
-                    <!-- Project 1 -->
-                    <a href="https://github.com/Aryan-DScodes/Open-Shield-AI" target="_blank" class="group bg-white p-6 border border-zinc-200 rounded-lg hover:border-zinc-400 hover:shadow-md transition-all flex flex-col h-full">
-                        <div class="flex justify-between items-start mb-4">
-                            <h4 class="text-lg font-bold text-zinc-900 group-hover:text-emerald-600 transition-colors">Open Shield AI Gateway</h4>
-                            <i data-lucide="arrow-up-right" class="w-4 h-4 text-zinc-300 group-hover:text-emerald-600 transition-colors"></i>
-                        </div>
-                        <p class="text-sm text-zinc-600 mb-6 leading-relaxed flex-grow">
-                            Enterprise-grade AI proxy. Intercepts image payloads for local PII redaction (Gaussian blur) before forwarding to upstream LLMs. Sub-50ms latency via Redis semantic caching.
-                        </p>
-                        <div class="flex flex-wrap gap-2 mt-auto">
-                            <span class="font-mono text-[10px] bg-zinc-100 text-zinc-600 px-2 py-1 rounded">FastAPI</span>
-                            <span class="font-mono text-[10px] bg-zinc-100 text-zinc-600 px-2 py-1 rounded">Redis</span>
-                            <span class="font-mono text-[10px] bg-zinc-100 text-zinc-600 px-2 py-1 rounded">Docker</span>
-                        </div>
-                    </a>
-
-                    <!-- Project 2 -->
-                    <a href="https://github.com/Aryan-DScodes/Telco-churn-MLops" target="_blank" class="group bg-white p-6 border border-zinc-200 rounded-lg hover:border-zinc-400 hover:shadow-md transition-all flex flex-col h-full">
-                        <div class="flex justify-between items-start mb-4">
-                            <h4 class="text-lg font-bold text-zinc-900 group-hover:text-emerald-600 transition-colors">Telco Churn ML Pipeline</h4>
-                            <i data-lucide="arrow-up-right" class="w-4 h-4 text-zinc-300 group-hover:text-emerald-600 transition-colors"></i>
-                        </div>
-                        <p class="text-sm text-zinc-600 mb-6 leading-relaxed flex-grow">
-                            Comprehensive predictive modeling to identify high-risk telecommunications customers. Handled full data lifecycle from EDA to robust classification for targeted retention.
-                        </p>
-                        <div class="flex flex-wrap gap-2 mt-auto">
-                            <span class="font-mono text-[10px] bg-zinc-100 text-zinc-600 px-2 py-1 rounded">Scikit-Learn</span>
-                            <span class="font-mono text-[10px] bg-zinc-100 text-zinc-600 px-2 py-1 rounded">Pandas</span>
-                            <span class="font-mono text-[10px] bg-zinc-100 text-zinc-600 px-2 py-1 rounded">Data Science</span>
-                        </div>
-                    </a>
-
-                    <!-- Project 3 -->
-                    <a href="https://github.com/Aryan-DScodes/Foreign-Object-Debris-FOD-Detection" target="_blank" class="group md:col-span-2 bg-white p-6 border border-zinc-200 rounded-lg hover:border-zinc-400 hover:shadow-md transition-all flex flex-col md:flex-row gap-6 items-start">
-                        <div class="flex-grow">
-                            <div class="flex justify-between items-start mb-3">
-                                <h4 class="text-lg font-bold text-zinc-900 group-hover:text-emerald-600 transition-colors">Runway FOD Detection System</h4>
-                                <i data-lucide="arrow-up-right" class="w-4 h-4 text-zinc-300 group-hover:text-emerald-600 transition-colors md:hidden"></i>
-                            </div>
-                            <p class="text-sm text-zinc-600 mb-4 leading-relaxed max-w-2xl">
-                                Safety-critical computer vision system trained to detect Foreign Object Debris on airport runways. Optimized a fine-tuned YOLOv8s model for UAV edge deployment via TensorRT.
-                            </p>
-                            <div class="flex flex-wrap gap-2">
-                                <span class="font-mono text-[10px] bg-zinc-100 text-zinc-600 px-2 py-1 rounded">YOLOv8</span>
-                                <span class="font-mono text-[10px] bg-zinc-100 text-zinc-600 px-2 py-1 rounded">PyTorch</span>
-                                <span class="font-mono text-[10px] bg-zinc-100 text-zinc-600 px-2 py-1 rounded">TensorRT</span>
-                                <span class="font-mono text-[10px] bg-zinc-100 text-zinc-600 px-2 py-1 rounded">ROS2</span>
-                            </div>
-                        </div>
-                        <i data-lucide="arrow-up-right" class="hidden md:block w-5 h-5 text-zinc-300 group-hover:text-emerald-600 transition-colors flex-shrink-0 mt-1"></i>
-                    </a>
-
+            <!-- Bento 2 -->
+            <div class="bento-card p-6 rounded-2xl md:col-span-2 flex flex-col justify-between h-48" onclick="openModal('modal-rigor')">
+                <div>
+                    <h3 class="font-mono text-xs font-bold uppercase tracking-widest text-earth-800/60 mb-2">Engineering Rigor</h3>
+                    <p class="text-lg font-semibold text-earth-900 leading-tight">Qualified HackWithInfy R2 & SDE Intern @ KLIC.</p>
+                </div>
+                <div class="flex items-center gap-2 text-xs font-medium text-earth-800/50 mt-4">
+                    <span>View Credentials</span> <i data-lucide="arrow-right" class="w-3 h-3"></i>
                 </div>
             </div>
         </div>
 
-        <!-- Footer -->
-        <footer class="mt-16 border-t border-zinc-200 pt-8 pb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 reveal">
-            <p class="text-zinc-500 text-xs leading-relaxed max-w-xl">
-                Beyond the terminal: Maintaining physical rigor at the gym, decoding classical Hindi texts like <em>Rashmirathi</em>, and refining manual cinematography parameters.
-            </p>
-            <div class="font-mono text-[10px] text-zinc-400 flex flex-col items-end">
-                <span>SYS.DATE: 2026</span>
-                <span>STATUS: OPERATIONAL</span>
-            </div>
-        </footer>
+    </main>
 
+    <!-- Glassmorphic Modals (Hidden by default) -->
+    
+    <!-- Modal: Tech -->
+    <div id="modal-tech" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-earth-900/10 modal-overlay" onclick="closeModal('modal-tech')"></div>
+        <div class="relative w-full max-w-lg bg-canvas border border-earth-200 rounded-3xl p-8 shadow-2xl transform scale-95 opacity-0 transition-all duration-300" id="modal-tech-content">
+            <button onclick="closeModal('modal-tech')" class="absolute top-6 right-6 text-earth-800/40 hover:text-earth-900"><i data-lucide="x" class="w-5 h-5"></i></button>
+            <h2 class="text-2xl font-bold mb-6">Systems Architecture</h2>
+            <div class="space-y-4 text-sm text-earth-800">
+                <div class="p-4 bg-white rounded-xl border border-earth-100">
+                    <strong class="block text-earth-900 mb-1">Open Shield AI Gateway</strong>
+                    <p>Sub-50ms latency LLM proxy. Uses Redis semantic caching and local token-bucket rate limiting. Redacts visual PII natively via OpenCV before downstream API calls.</p>
+                </div>
+                <div class="p-4 bg-white rounded-xl border border-earth-100">
+                    <strong class="block text-earth-900 mb-1">Runway FOD Detection</strong>
+                    <p>Safety-critical edge CV. Fine-tuned YOLOv8s at 960px. Exported via TensorRT (FP16) for onboard UAV deployment via ROS2 messaging. Recall floor engineered to ≥ 0.957.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Rigor -->
+    <div id="modal-rigor" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-earth-900/10 modal-overlay" onclick="closeModal('modal-rigor')"></div>
+        <div class="relative w-full max-w-lg bg-canvas border border-earth-200 rounded-3xl p-8 shadow-2xl transform scale-95 opacity-0 transition-all duration-300" id="modal-rigor-content">
+            <button onclick="closeModal('modal-rigor')" class="absolute top-6 right-6 text-earth-800/40 hover:text-earth-900"><i data-lucide="x" class="w-5 h-5"></i></button>
+            <h2 class="text-2xl font-bold mb-6">Engineering Rigor</h2>
+            <ul class="space-y-4 text-sm text-earth-800 font-medium">
+                <li class="flex items-start gap-3"><i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-600 shrink-0"></i> <span><strong>SDE Intern @ KLIC:</strong> 3-months engineering data workflows & BI dashboards.</span></li>
+                <li class="flex items-start gap-3"><i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-600 shrink-0"></i> <span><strong>HackWithInfy:</strong> Qualified Round 2 (Cleared 100% test cases in R1).</span></li>
+                <li class="flex items-start gap-3"><i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-600 shrink-0"></i> <span><strong>TCS NQT:</strong> Cleared National Qualifier Test.</span></li>
+                <li class="flex items-start gap-3"><i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-600 shrink-0"></i> <span><strong>NPTEL:</strong> Certified in Data Structures & Algorithms in Python.</span></li>
+            </ul>
+        </div>
     </div>
 
     <script>
         lucide.createIcons();
 
-        // Simple Intersection Observer for snappy reveal
-        document.addEventListener("DOMContentLoaded", () => {
-            const reveals = document.querySelectorAll(".reveal");
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add("active");
-                    }
-                });
-            }, { threshold: 0.1, rootMargin: "0px 0px -20px 0px" });
+        // 1. Command Palette UI Logic
+        const overlay = document.getElementById('focusOverlay');
+        const container = document.getElementById('searchContainer');
+        const pills = document.getElementById('pillSuggestions');
+        
+        function focusSearch() {
+            overlay.classList.add('active');
+            container.classList.add('active');
+            pills.style.opacity = '0';
+        }
 
-            reveals.forEach(reveal => observer.observe(reveal));
-        });
+        function defocusSearch() {
+            overlay.classList.remove('active');
+            container.classList.remove('active');
+            pills.style.opacity = '1';
+        }
+
+        function setQuery(text) {
+            const input = document.getElementById('aiInput');
+            input.value = text;
+            input.focus();
+            handleSearch(new Event('submit'));
+        }
+
+        // 2. The Cloudflare Worker Connection
+        // REPLACE THIS URL WITH YOUR CLOUDFLARE WORKER URL FROM PHASE 1
+        const WORKER_URL = "https://YOUR_WORKER_URL_HERE"; 
+
+        async function handleSearch(e) {
+            e.preventDefault();
+            const input = document.getElementById('aiInput').value.trim();
+            if(!input) return;
+
+            const responseArea = document.getElementById('responseArea');
+            const responseText = document.getElementById('responseText');
+            
+            responseArea.classList.remove('hidden');
+            responseText.innerHTML = '<span class="animate-pulse text-earth-800/60">Synthesizing context...</span>';
+
+            try {
+                // If you haven't set up the worker yet, this runs a simulated response
+                if (WORKER_URL.includes("aryan-portfolio-ai.aryantiwari233.workers.dev")) {
+                    setTimeout(() => {
+                        responseText.innerHTML = "<em>(Simulation Mode)</em> To see real AI comprehension, deploy the Cloudflare Worker and paste its URL into the HTML code! For now: You should hire Aryan because he architects edge-deployable ML systems like his TensorRT FOD detector. Reach out at aryantiwari.work@gmail.com.";
+                    }, 1500);
+                    return;
+                }
+
+                // The actual backend call
+                const res = await fetch(WORKER_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ query: input })
+                });
+                
+                const data = await res.json();
+                
+                // Simple typewriter effect
+                responseText.innerHTML = '';
+                let i = 0;
+                const speed = 15;
+                function typeWriter() {
+                    if (i < data.response.length) {
+                        responseText.innerHTML += data.response.charAt(i);
+                        i++;
+                        setTimeout(typeWriter, speed);
+                    }
+                }
+                typeWriter();
+
+            } catch (err) {
+                responseText.innerHTML = "Connection to intelligence core failed. Please try again.";
+            }
+        }
+
+        // 3. Modal Logic
+        function openModal(id) {
+            const modal = document.getElementById(id);
+            const content = document.getElementById(id + '-content');
+            modal.classList.remove('hidden');
+            // Trigger animation frame for CSS transition
+            setTimeout(() => {
+                content.classList.remove('scale-95', 'opacity-0');
+                content.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        function closeModal(id) {
+            const modal = document.getElementById(id);
+            const content = document.getElementById(id + '-content');
+            content.classList.remove('scale-100', 'opacity-100');
+            content.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => { modal.classList.add('hidden'); }, 300);
+        }
     </script>
 </body>
 </html>
- 
