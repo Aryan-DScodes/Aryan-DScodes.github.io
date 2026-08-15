@@ -14,7 +14,7 @@
                 extend: {
                     fontFamily: { sans: ['"Inter"', 'sans-serif'], mono: ['"JetBrains Mono"', 'monospace'] },
                     colors: {
-                        canvas: '#F9F8F6',
+                        canvas: '#FDFCFB',
                         earth: { 100: '#EFECE6', 200: '#E3DFD5', 800: '#5A554C', 900: '#2C2926' },
                         terracotta: '#A3674C'
                     }
@@ -23,16 +23,20 @@
         }
     </script>
     <style>
-        body { background-color: #F9F8F6; }
+        body { 
+            background-color: #FDFCFB; 
+        }
+        
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-thumb { background: #E3DFD5; border-radius: 10px; }
         
-        .ambient-mesh {
+        /* The Engineering Faint Grid */
+        .bg-grid {
             position: fixed; inset: 0; z-index: 0; pointer-events: none;
-            background: 
-                radial-gradient(circle at 10% 20%, rgba(227, 223, 213, 0.3) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(227, 223, 213, 0.4) 0%, transparent 40%);
-            filter: blur(50px);
+            background-image: 
+                linear-gradient(to right, rgba(227, 223, 213, 0.4) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(227, 223, 213, 0.4) 1px, transparent 1px);
+            background-size: 28px 28px;
         }
 
         .bento-card {
@@ -42,13 +46,13 @@
             cursor: pointer;
         }
         .bento-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 24px rgba(44, 41, 38, 0.06);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 24px rgba(44, 41, 38, 0.04);
             border-color: #D1CCC0;
         }
         
         #aiResponseArea {
-            transition: all 0.3s ease-in-out;
+            transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out;
         }
         
         .modal-bg { backdrop-filter: blur(4px); }
@@ -56,160 +60,144 @@
 </head>
 <body class="text-earth-900 antialiased relative min-h-screen">
 
-    <div class="ambient-mesh"></div>
+    <!-- The Technical Graph Paper Background -->
+    <div class="bg-grid"></div>
 
-    <!-- Navigation -->
-    <nav class="relative z-10 max-w-6xl mx-auto px-6 pt-10 pb-8 flex justify-between items-center">
-        <div class="flex items-center gap-3">
-            <div class="w-8 h-8 bg-earth-900 text-canvas flex items-center justify-center font-mono text-[12px] font-bold rounded shadow-sm">AT</div>
-            <span class="text-[15px] font-semibold tracking-tight">Aryan Tiwari</span>
-        </div>
+    <!-- MAIN NARROW WRAPPER (The read.cv style column) -->
+    <div class="relative z-10 max-w-2xl mx-auto px-6 pt-10 pb-16 flex flex-col">
         
-        <!-- Top Icons: GitHub, LinkedIn, Email (Beefed up hitboxes and z-index) -->
-        <!-- Top Icons: GitHub, LinkedIn, Email (Using solid inline SVGs) -->
-        <div class="flex gap-4 md:gap-5 relative z-50 items-center">
+        <!-- Navigation Header -->
+        <nav class="flex justify-between items-center mb-12">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-earth-900 text-canvas flex items-center justify-center font-mono text-[12px] font-bold rounded shadow-sm">AT</div>
+                <span class="text-[15px] font-semibold tracking-tight">Aryan Tiwari</span>
+            </div>
             
-            <!-- GitHub (Solid Circle Style) -->
-            <a href="https://github.com/Aryan-DScodes" target="_blank" class="text-earth-800 hover:text-earth-900 transition-transform hover:scale-110 p-1" aria-label="GitHub">
-                <svg class="w-6 h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
-                </svg>
-            </a>
-            
-            <!-- LinkedIn (Solid Square Style) -->
-            <a href="https://www.linkedin.com/in/aryan-tiwari2409" target="_blank" class="text-earth-800 hover:text-blue-700 transition-transform hover:scale-110 p-1" aria-label="LinkedIn">
-                <svg class="w-6 h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                </svg>
-            </a>
-            
-            <!-- Email (Solid Envelope Style) -->
-            <a href="mailto:aryantiw.04@gmail.com" class="text-earth-800 hover:text-terracotta transition-transform hover:scale-110 p-1" aria-label="Email">
-                <svg class="w-6 h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
-                </svg>
-            </a>
-            
-        </div>
-    </nav>
+            <!-- Solid SVG Icons -->
+            <div class="flex gap-4 items-center">
+                <a href="https://github.com/Aryan-DScodes" target="_blank" class="text-earth-800 hover:text-earth-900 transition-transform hover:scale-110 p-1" aria-label="GitHub">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+                    </svg>
+                </a>
+                <a href="https://www.linkedin.com/in/aryan-tiwari2409" target="_blank" class="text-earth-800 hover:text-blue-700 transition-transform hover:scale-110 p-1" aria-label="LinkedIn">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                    </svg>
+                </a>
+                <a href="mailto:aryantiw.04@gmail.com" class="text-earth-800 hover:text-terracotta transition-transform hover:scale-110 p-1" aria-label="Email">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                    </svg>
+                </a>
+            </div>
+        </nav>
 
-    <!-- Main Desktop Split Layout -->
-    <main class="relative z-10 max-w-6xl mx-auto px-6 pb-16">
-        
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14">
-            
-            <!-- LEFT COLUMN: Bio & AI Chatbot -->
-            <div class="lg:col-span-5 flex flex-col">
-                
-                <!-- Hero Bio -->
-                <section class="mb-10">
-                    <h1 class="text-3xl md:text-4xl font-semibold text-earth-900 mb-4 tracking-tight leading-tight">Machine Learning & Systems Engineer</h1>
-                    <p class="text-[15px] text-earth-800 leading-relaxed">
-                        B.Tech in Electronics & Communication at LNCT, Bhopal. I engineer end-to-end AI infrastructure, from low-latency API gateways to real-time edge computer vision systems.
-                    </p>
-                </section>
-                
-                <!-- AI Command Palette -->
-                <div class="w-full bg-white rounded-xl border border-earth-200 overflow-hidden shadow-sm flex flex-col relative z-40">
-                    <div class="flex items-center px-4 py-3 gap-3 border-b border-earth-100">
-                        <i data-lucide="sparkles" class="w-4.5 h-4.5 text-earth-800/50 shrink-0"></i>
-                        <input 
-                            type="text" 
-                            id="aiInput" 
-                            placeholder="Ask my AI agent about my edge deployments or ML rigor..." 
-                            class="flex-1 bg-transparent border-none outline-none text-[14px] text-earth-900 placeholder:text-earth-800/50 py-1"
-                            autocomplete="off"
-                            onkeypress="handleEnter(event)"
-                        />
-                        <button onclick="submitQuery()" class="text-[11px] font-mono bg-earth-100 text-earth-800 px-2.5 py-1.5 rounded hover:bg-earth-200 transition-colors">
-                            Enter ↵
-                        </button>
-                    </div>
+        <!-- Hero Section -->
+        <section class="mb-10">
+            <h1 class="text-3xl md:text-[34px] font-semibold text-earth-900 mb-3 tracking-tight leading-tight">Machine Learning & Systems Engineer</h1>
+            <p class="text-[15px] text-earth-800 leading-relaxed">
+                B.Tech in Electronics & Communication at LNCT, Bhopal. I engineer end-to-end AI infrastructure, from low-latency API gateways to real-time edge computer vision systems.
+            </p>
+        </section>
 
-                    <!-- AI Response Area -->
-                    <div id="aiResponseArea" class="hidden bg-[#FAFAFA] p-5 text-[14px] text-earth-900 max-h-80 overflow-y-auto">
-                        <div id="aiResponseText" class="leading-relaxed"></div>
-                    </div>
+        <!-- AI Command Palette -->
+        <div class="w-full mb-10 relative z-40">
+            <div class="bg-white rounded-xl border border-earth-200 overflow-hidden shadow-sm flex flex-col">
+                <div class="flex items-center px-4 py-3.5 gap-3 border-b border-earth-100">
+                    <i data-lucide="sparkles" class="w-4.5 h-4.5 text-earth-800/40 shrink-0"></i>
+                    <input 
+                        type="text" 
+                        id="aiInput" 
+                        placeholder="Ask my AI agent about my edge deployments or ML rigor..." 
+                        class="flex-1 bg-transparent border-none outline-none text-[14px] text-earth-900 placeholder:text-earth-800/40 py-1"
+                        autocomplete="off"
+                        onkeypress="handleEnter(event)"
+                    />
+                    <button onclick="submitQuery()" class="text-[11px] font-mono bg-earth-100 text-earth-800 px-2.5 py-1.5 rounded hover:bg-earth-200 transition-colors">
+                        Enter ↵
+                    </button>
                 </div>
-                
-                <!-- Umbrella Suggestions -->
-                <div class="flex flex-wrap gap-2 mt-4 relative z-40">
-                    <button onclick="submitQuery('Why should I hire Aryan?')" class="px-3 py-1.5 rounded-md bg-white border border-earth-200 text-[12px] font-medium text-earth-800 hover:bg-earth-100 transition-colors shadow-sm">Why hire Aryan?</button>
-                    <button onclick="submitQuery('Walk me through his AI & ML pipelines.')" class="px-3 py-1.5 rounded-md bg-white border border-earth-200 text-[12px] font-medium text-earth-800 hover:bg-earth-100 transition-colors shadow-sm">Walk me through his AI & ML pipelines</button>
-                    <button onclick="submitQuery('Summarize his competitive rigor.')" class="px-3 py-1.5 rounded-md bg-white border border-earth-200 text-[12px] font-medium text-earth-800 hover:bg-earth-100 transition-colors shadow-sm">Summarize his competitive rigor</button>
+
+                <!-- AI Response Area -->
+                <div id="aiResponseArea" class="hidden bg-[#FAFAFA] p-5 text-[14px] text-earth-900 max-h-96 overflow-y-auto">
+                    <div id="aiResponseText" class="leading-relaxed"></div>
+                </div>
+            </div>
+            
+            <!-- Umbrella Suggestions -->
+            <div class="flex flex-wrap gap-2 mt-4">
+                <button onclick="submitQuery('Why should I hire Aryan?')" class="px-3 py-1.5 rounded-md bg-white border border-earth-200 text-[12px] font-medium text-earth-800 hover:bg-earth-100 transition-colors shadow-sm">Why hire Aryan?</button>
+                <button onclick="submitQuery('Walk me through his AI & ML pipelines.')" class="px-3 py-1.5 rounded-md bg-white border border-earth-200 text-[12px] font-medium text-earth-800 hover:bg-earth-100 transition-colors shadow-sm">Walk me through his AI & ML pipelines</button>
+                <button onclick="submitQuery('Summarize his competitive rigor.')" class="px-3 py-1.5 rounded-md bg-white border border-earth-200 text-[12px] font-medium text-earth-800 hover:bg-earth-100 transition-colors shadow-sm">Summarize his competitive rigor</button>
+            </div>
+        </div>
+
+        <!-- Bento Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12">
+            
+            <!-- Experience -->
+            <div class="bento-card p-5 md:p-6 rounded-xl flex flex-col justify-between min-h-[160px]" onclick="openModal('modal-experience')">
+                <div>
+                    <h3 class="font-mono text-[11px] font-bold uppercase tracking-wide text-earth-800/60 mb-3 flex justify-between">Experience <i data-lucide="external-link" class="w-3.5 h-3.5"></i></h3>
+                    <p class="text-[14.5px] font-semibold text-earth-900 mb-1.5">SDE Intern @ Entrepreneurs Woods</p>
+                    <p class="text-[13px] text-earth-800 line-clamp-3">Engineered robust microservices and automated data pipelines, cutting system integration errors by 20%.</p>
                 </div>
             </div>
 
-            <!-- RIGHT COLUMN: 2x2 Bento Grid -->
-            <div class="lg:col-span-7">
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-10">
-                    
-                    <!-- Experience -->
-                    <div class="bento-card p-6 rounded-xl flex flex-col justify-between min-h-[160px]" onclick="openModal('modal-experience')">
-                        <div>
-                            <h3 class="font-mono text-[11px] font-bold uppercase tracking-wide text-earth-800/60 mb-3 flex justify-between">Experience <i data-lucide="external-link" class="w-3.5 h-3.5"></i></h3>
-                            <p class="text-[15px] font-semibold text-earth-900 mb-1.5">SDE Intern @ Entrepreneurs Woods</p>
-                            <p class="text-[13px] text-earth-800 line-clamp-3">Engineered robust microservices and automated data pipelines, cutting system integration errors by 20%.</p>
-                        </div>
-                    </div>
+            <!-- Projects -->
+            <div class="bento-card p-5 md:p-6 rounded-xl flex flex-col justify-between min-h-[160px]" onclick="openModal('modal-projects')">
+                <div>
+                    <h3 class="font-mono text-[11px] font-bold uppercase tracking-wide text-earth-800/60 mb-3 flex justify-between">Projects <i data-lucide="external-link" class="w-3.5 h-3.5"></i></h3>
+                    <ul class="text-[13px] font-medium space-y-1.5 text-earth-900">
+                        <li>• AI-Shield Gateway</li>
+                        <li>• Runway FOD Detection</li>
+                        <li>• Telco Churn Predictor</li>
+                    </ul>
+                </div>
+            </div>
 
-                    <!-- Projects -->
-                    <div class="bento-card p-6 rounded-xl flex flex-col justify-between min-h-[160px]" onclick="openModal('modal-projects')">
-                        <div>
-                            <h3 class="font-mono text-[11px] font-bold uppercase tracking-wide text-earth-800/60 mb-3 flex justify-between">Projects <i data-lucide="external-link" class="w-3.5 h-3.5"></i></h3>
-                            <ul class="text-[13px] font-medium space-y-1.5 text-earth-900">
-                                <li>• AI-Shield Gateway</li>
-                                <li>• Runway FOD Detection</li>
-                                <li>• Telco Churn Predictor</li>
-                            </ul>
-                        </div>
-                    </div>
+            <!-- Milestones -->
+            <div class="bento-card p-5 md:p-6 rounded-xl flex flex-col justify-between min-h-[160px]" onclick="openModal('modal-rigor')">
+                <div>
+                    <h3 class="font-mono text-[11px] font-bold uppercase tracking-wide text-earth-800/60 mb-3 flex justify-between">Milestones <i data-lucide="external-link" class="w-3.5 h-3.5"></i></h3>
+                    <ul class="text-[13px] space-y-1.5 text-earth-800 font-medium">
+                        <li>HackWithInfy Round 2</li>
+                        <li>TCS NQT Cleared</li>
+                        <li>NPTEL Certified</li>
+                    </ul>
+                </div>
+            </div>
 
-                    <!-- Milestones -->
-                    <div class="bento-card p-6 rounded-xl flex flex-col justify-between min-h-[160px]" onclick="openModal('modal-rigor')">
-                        <div>
-                            <h3 class="font-mono text-[11px] font-bold uppercase tracking-wide text-earth-800/60 mb-3 flex justify-between">Milestones <i data-lucide="external-link" class="w-3.5 h-3.5"></i></h3>
-                            <ul class="text-[13px] space-y-1.5 text-earth-800 font-medium">
-                                <li>HackWithInfy Round 2</li>
-                                <li>TCS NQT Cleared</li>
-                                <li>NPTEL Certified</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!-- Core Competencies -->
-                    <div class="bento-card p-6 rounded-xl flex flex-col justify-between min-h-[160px]" onclick="openModal('modal-stack')">
-                        <div>
-                            <h3 class="font-mono text-[11px] font-bold uppercase tracking-wide text-earth-800/60 mb-3 flex justify-between">Core Competencies <i data-lucide="external-link" class="w-3.5 h-3.5"></i></h3>
-                            <div class="flex flex-wrap gap-1.5">
-                                <span class="font-mono text-[10px] bg-earth-100 text-earth-900 px-2 py-0.5 rounded border border-earth-200">FastAPI</span>
-                                <span class="font-mono text-[10px] bg-earth-100 text-earth-900 px-2 py-0.5 rounded border border-earth-200">Redis</span>
-                                <span class="font-mono text-[10px] bg-earth-100 text-earth-900 px-2 py-0.5 rounded border border-earth-200">Docker</span>
-                                <span class="font-mono text-[10px] bg-earth-100 text-earth-900 px-2 py-0.5 rounded border border-earth-200">YOLOv8</span>
-                                <span class="font-mono text-[10px] bg-earth-100 text-earth-900 px-2 py-0.5 rounded border border-earth-200">TensorRT</span>
-                                <span class="font-mono text-[10px] bg-earth-100 text-earth-900 px-2 py-0.5 rounded border border-earth-200">XGBoost</span>
-                                <span class="font-mono text-[10px] bg-earth-100 text-earth-900 px-2 py-0.5 rounded border border-earth-200">AWS</span>
-                            </div>
-                        </div>
+            <!-- Core Competencies -->
+            <div class="bento-card p-5 md:p-6 rounded-xl flex flex-col justify-between min-h-[160px]" onclick="openModal('modal-stack')">
+                <div>
+                    <h3 class="font-mono text-[11px] font-bold uppercase tracking-wide text-earth-800/60 mb-3 flex justify-between">Core Competencies <i data-lucide="external-link" class="w-3.5 h-3.5"></i></h3>
+                    <div class="flex flex-wrap gap-1.5">
+                        <span class="font-mono text-[10px] bg-earth-100 text-earth-900 px-2 py-0.5 rounded border border-earth-200">FastAPI</span>
+                        <span class="font-mono text-[10px] bg-earth-100 text-earth-900 px-2 py-0.5 rounded border border-earth-200">Redis</span>
+                        <span class="font-mono text-[10px] bg-earth-100 text-earth-900 px-2 py-0.5 rounded border border-earth-200">Docker</span>
+                        <span class="font-mono text-[10px] bg-earth-100 text-earth-900 px-2 py-0.5 rounded border border-earth-200">YOLOv8</span>
+                        <span class="font-mono text-[10px] bg-earth-100 text-earth-900 px-2 py-0.5 rounded border border-earth-200">TensorRT</span>
+                        <span class="font-mono text-[10px] bg-earth-100 text-earth-900 px-2 py-0.5 rounded border border-earth-200">XGBoost</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Scrollable Footer -->
-        <footer class="border-t border-earth-200 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left mt-8 relative z-40">
+        <!-- Footer -->
+        <footer class="border-t border-earth-200 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left">
             <div>
                 <h4 class="text-earth-900 font-medium text-[14px]">Aryan Tiwari</h4>
-                <p class="text-earth-800 text-[13px] mt-1">Based in Bhopal, India • B.Tech ECE (Class of '27)</p>
+                <p class="text-earth-800 text-[13px] mt-1">Bhopal, India • B.Tech ECE</p>
             </div>
-            <a href="mailto:aryantiw.04@gmail.com" class="text-[13px] font-mono text-earth-800 bg-earth-100 px-4 py-2 rounded-md hover:bg-earth-200 transition-colors">
+            <a href="mailto:aryantiw.04@gmail.com" class="text-[12px] font-mono text-earth-800 bg-earth-100 px-3 py-1.5 rounded-md hover:bg-earth-200 transition-colors">
                 aryantiw.04@gmail.com
             </a>
         </footer>
-    </main>
+    </div> <!-- END OF MAIN NARROW WRAPPER -->
 
-    <!-- Modals -->
-    
+    <!-- Modals (Unchanged from previous successful iteration) -->
     <!-- Experience Modal -->
     <div id="modal-experience" class="fixed inset-0 z-[100] hidden items-center justify-center p-4">
         <div class="absolute inset-0 bg-earth-900/30 modal-bg" onclick="closeModal('modal-experience')"></div>
@@ -226,15 +214,13 @@
         </div>
     </div>
 
-    <!-- Projects Modal (Now featuring 4 distinct projects) -->
+    <!-- Projects Modal -->
     <div id="modal-projects" class="fixed inset-0 z-[100] hidden items-center justify-center p-4">
         <div class="absolute inset-0 bg-earth-900/30 modal-bg" onclick="closeModal('modal-projects')"></div>
         <div class="relative w-full max-w-2xl bg-white border border-earth-200 rounded-xl p-6 md:p-8 shadow-2xl max-h-[85vh] overflow-y-auto">
             <button class="absolute top-5 right-5 text-earth-800/50 hover:text-earth-900" onclick="closeModal('modal-projects')"><i data-lucide="x" class="w-5 h-5"></i></button>
             <h2 class="text-xl font-semibold mb-6 text-earth-900">Projects & Architectures</h2>
             <div class="space-y-4">
-                
-                <!-- Project 1: Open Shield AI -->
                 <div class="p-5 bg-canvas rounded-lg border border-earth-100">
                     <div class="flex justify-between items-start mb-2">
                         <strong class="text-[15px] text-earth-900">AI-Shield (Enterprise GenAI Gateway)</strong>
@@ -242,8 +228,6 @@
                     </div>
                     <p class="text-[13.5px] text-earth-800">Enterprise AI proxy. Intercepts payloads for local PII redaction (Gaussian blur) via Vector Search & YOLO. Achieves sub-50ms latency via Redis semantic caching.</p>
                 </div>
-                
-                <!-- Project 2: Runway FOD -->
                 <div class="p-5 bg-canvas rounded-lg border border-earth-100">
                     <div class="flex justify-between items-start mb-2">
                         <strong class="text-[15px] text-earth-900">Runway FOD Detection</strong>
@@ -251,8 +235,6 @@
                     </div>
                     <p class="text-[13.5px] text-earth-800">Safety-critical edge CV system. Fine-tuned YOLOv8s (960px). Applied Albumentations (RandomFog). Exported to TensorRT (FP16) for onboard UAV deployment via ROS2.</p>
                 </div>
-                
-                <!-- Project 3: Telco Churn -->
                 <div class="p-5 bg-canvas rounded-lg border border-earth-100">
                     <div class="flex justify-between items-start mb-2">
                         <strong class="text-[15px] text-earth-900">Telco Churn Predictor</strong>
@@ -260,8 +242,6 @@
                     </div>
                     <p class="text-[13.5px] text-earth-800">End-to-End MLOps pipeline utilizing XGBoost predictors. Deployed via FastAPI & MLflow on AWS (EC2/S3) for robust customer churn classification.</p>
                 </div>
-
-                <!-- Project 4: Customer Segmentation -->
                 <div class="p-5 bg-canvas rounded-lg border border-earth-100">
                     <div class="flex justify-between items-start mb-2">
                         <strong class="text-[15px] text-earth-900">Customer Segmentation Modeling</strong>
@@ -269,7 +249,6 @@
                     </div>
                     <p class="text-[13.5px] text-earth-800">Unsupervised and supervised pipeline utilizing K-Means optimization (Elbow/Silhouette) and PCA/t-SNE visualization, validated via Random Forest.</p>
                 </div>
-                
             </div>
         </div>
     </div>
@@ -313,13 +292,12 @@
     </div>
 
     <script>
-        // Render Icons
         lucide.createIcons();
 
         // ==========================================
         // PASTE YOUR CLOUDFLARE WORKER URL BELOW
         // ==========================================
-        const WORKER_URL = "https://aryan-portfolio-ai.aryantiwari233.workers.dev"; 
+        const WORKER_URL = "https://YOUR_WORKER_URL_HERE"; 
 
         // Modals Logic
         function openModal(id) {
@@ -335,9 +313,25 @@
         // AI Chatbot Logic
         function handleEnter(event) {
             if (event.key === 'Enter') {
-                event.preventDefault(); // Prevents page reload
+                event.preventDefault(); 
                 submitQuery();
             }
+        }
+
+        // Typewriter Effect Function
+        function typeWriterEffect(element, text, speed = 15) {
+            element.innerHTML = '';
+            let i = 0;
+            
+            function type() {
+                if (i <= text.length) {
+                    // Using substring to safely render text without breaking HTML tags midway
+                    element.innerHTML = text.substring(0, i);
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+            type();
         }
 
         async function submitQuery(optionalPresetQuery) {
@@ -345,6 +339,7 @@
             const responseArea = document.getElementById('aiResponseArea');
             const responseText = document.getElementById('aiResponseText');
             
+            // If a chip was clicked, auto-fill and instantly trigger the search
             if (optionalPresetQuery) {
                 inputEl.value = optionalPresetQuery;
             }
@@ -352,12 +347,11 @@
             const query = inputEl.value.trim();
             if (!query) return;
 
-            // Expand response area
             responseArea.classList.remove('hidden');
             responseText.innerHTML = '<span class="animate-pulse text-earth-800/60">Connecting to AI Agent...</span>';
 
-            if (WORKER_URL.includes("YOUR_WORKER_URL_HERE")) {
-                responseText.innerHTML = '<span class="text-terracotta font-medium">Error: Please paste your Cloudflare Worker URL in the HTML script at the bottom.</span>';
+            if (WORKER_URL.includes("https://aryan-portfolio-ai.aryantiwari233.workers.dev")) {
+                responseText.innerHTML = '<span class="text-terracotta font-medium">Error: Please paste your Cloudflare Worker URL in the HTML script.</span>';
                 return;
             }
 
@@ -373,7 +367,8 @@
                 const data = await res.json();
                 
                 if (data.response) {
-                    responseText.innerHTML = data.response;
+                    // Trigger the smooth typewriter streaming effect
+                    typeWriterEffect(responseText, data.response, 15);
                 } else if (data.error) {
                     responseText.innerHTML = '<span class="text-terracotta font-medium">' + data.error + '</span>';
                 }
