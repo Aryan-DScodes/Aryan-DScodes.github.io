@@ -6,7 +6,7 @@
     <title>Aryan Tiwari | ML & Systems Engineer</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
@@ -14,9 +14,8 @@
                 extend: {
                     fontFamily: { sans: ['"Inter"', 'sans-serif'], mono: ['"JetBrains Mono"', 'monospace'] },
                     colors: {
-                        // Warm, earthy editorial palette
-                        canvas: '#FDFBF7',
-                        earth: { 100: '#F5F2EB', 200: '#E6E2D8', 800: '#544E47', 900: '#2C2926' },
+                        canvas: '#F9F8F6',
+                        earth: { 100: '#EFECE6', 200: '#E3DFD5', 800: '#5A554C', 900: '#2C2926' },
                         terracotta: '#A3674C'
                     }
                 }
@@ -24,183 +23,199 @@
         }
     </script>
     <style>
-        body { background-color: #FDFBF7; }
+        body { background-color: #F9F8F6; }
         ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-thumb { background: #E6E2D8; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #E3DFD5; border-radius: 10px; }
         
-        /* Subtle Warm Ambient Mesh */
         .ambient-mesh {
             position: fixed; inset: 0; z-index: 0; pointer-events: none;
             background: 
-                radial-gradient(circle at 10% 20%, rgba(224, 216, 195, 0.25) 0%, transparent 50%),
-                radial-gradient(circle at 90% 80%, rgba(212, 203, 184, 0.3) 0%, transparent 50%);
-            filter: blur(60px);
+                radial-gradient(circle at 10% 20%, rgba(227, 223, 213, 0.3) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(227, 223, 213, 0.4) 0%, transparent 40%);
+            filter: blur(50px);
         }
 
         .bento-card {
             background: #FFFFFF;
-            border: 1px solid #E6E2D8;
-            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
+            border: 1px solid #E3DFD5;
+            transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
             cursor: pointer;
         }
         .bento-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 12px 30px rgba(44, 41, 38, 0.05);
-            border-color: #D4CDBC;
+            box-shadow: 0 12px 24px rgba(44, 41, 38, 0.06);
+            border-color: #D1CCC0;
         }
         
-        #aiOverlay {
-            position: fixed; inset: 0; z-index: 40;
-            background: rgba(253, 251, 247, 0.75);
-            backdrop-filter: blur(6px);
-            opacity: 0; pointer-events: none;
-            transition: opacity 0.3s ease;
+        #aiResponseArea {
+            transition: all 0.3s ease-in-out;
         }
-        #aiOverlay.active { opacity: 1; pointer-events: auto; }
         
-        .search-container {
-            position: relative; z-index: 50;
-            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
-        }
-        .search-container.active {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 40px rgba(44, 41, 38, 0.08);
-        }
-
-        .modal-bg { backdrop-filter: blur(5px); }
+        .modal-bg { backdrop-filter: blur(4px); }
     </style>
 </head>
 <body class="text-earth-900 antialiased relative min-h-screen">
 
     <div class="ambient-mesh"></div>
-    <div id="aiOverlay"></div>
 
     <!-- Navigation -->
-    <nav class="relative z-10 max-w-4xl mx-auto px-6 pt-10 pb-6 flex justify-between items-center">
+    <nav class="relative z-10 max-w-6xl mx-auto px-6 pt-10 pb-8 flex justify-between items-center">
         <div class="flex items-center gap-3">
             <div class="w-8 h-8 bg-earth-900 text-canvas flex items-center justify-center font-mono text-[12px] font-bold rounded shadow-sm">AT</div>
-            <span class="text-[16px] font-semibold tracking-tight">Aryan Tiwari</span>
+            <span class="text-[15px] font-semibold tracking-tight">Aryan Tiwari</span>
         </div>
-        <div class="flex gap-5">
-            <a href="https://github.com/Aryan-DScodes" target="_blank" class="text-earth-800 hover:text-earth-900 transition-colors"><i data-lucide="github" class="w-5 h-5"></i></a>
-            <a href="https://www.linkedin.com/in/aryan-tiwari2409" target="_blank" class="text-earth-800 hover:text-blue-700 transition-colors"><i data-lucide="linkedin" class="w-5 h-5"></i></a>
+        
+        <!-- Top Icons: GitHub, LinkedIn, Email (Beefed up hitboxes and z-index) -->
+        <!-- Top Icons: GitHub, LinkedIn, Email (Using solid inline SVGs) -->
+        <div class="flex gap-4 md:gap-5 relative z-50 items-center">
+            
+            <!-- GitHub (Solid Circle Style) -->
+            <a href="https://github.com/Aryan-DScodes" target="_blank" class="text-earth-800 hover:text-earth-900 transition-transform hover:scale-110 p-1" aria-label="GitHub">
+                <svg class="w-6 h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+                </svg>
+            </a>
+            
+            <!-- LinkedIn (Solid Square Style) -->
+            <a href="https://www.linkedin.com/in/aryan-tiwari2409" target="_blank" class="text-earth-800 hover:text-blue-700 transition-transform hover:scale-110 p-1" aria-label="LinkedIn">
+                <svg class="w-6 h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                </svg>
+            </a>
+            
+            <!-- Email (Solid Envelope Style) -->
+            <a href="mailto:aryantiw.04@gmail.com" class="text-earth-800 hover:text-terracotta transition-transform hover:scale-110 p-1" aria-label="Email">
+                <svg class="w-6 h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                </svg>
+            </a>
+            
         </div>
     </nav>
 
-    <!-- Main Content -->
-    <main class="relative z-10 max-w-4xl mx-auto px-6 pb-24">
+    <!-- Main Desktop Split Layout -->
+    <main class="relative z-10 max-w-6xl mx-auto px-6 pb-16">
         
-        <!-- Hero Section -->
-        <section class="max-w-2xl mt-8 mb-14">
-            <h1 class="text-3xl md:text-[40px] font-semibold text-earth-900 mb-4 tracking-tight leading-tight">Machine Learning & Systems Engineer</h1>
-            <p class="text-[15px] md:text-[16.5px] text-earth-800 leading-relaxed">
-                B.Tech in Electronics & Communication at LNCT, Bhopal. I engineer end-to-end AI infrastructure, from low-latency API gateways to real-time edge computer vision systems.
-            </p>
-        </section>
-        
-        <!-- AI Command Palette -->
-        <div class="max-w-3xl w-full mb-16 search-container" id="searchWrapper">
-            <div class="bg-white rounded-xl border border-earth-200 overflow-hidden shadow-sm">
-                <form id="aiForm" class="flex items-center px-4 py-3.5 gap-3">
-                    <i data-lucide="sparkles" class="w-4.5 h-4.5 text-earth-800/40 shrink-0"></i>
-                    <input 
-                        type="text" 
-                        id="aiInput" 
-                        placeholder="Ask my AI agent about my architectures, edge deployments, or ML rigor..." 
-                        class="flex-1 bg-transparent border-none outline-none text-[14.5px] md:text-[15px] text-earth-900 placeholder:text-earth-800/40 py-1"
-                        autocomplete="off"
-                    />
-                    <button type="submit" class="hidden sm:block text-[11px] font-mono bg-earth-100 text-earth-800 px-2.5 py-1.5 rounded hover:bg-earth-200 transition-colors">
-                        Enter ↵
-                    </button>
-                </form>
-
-                <div id="aiResponseArea" class="hidden border-t border-earth-100 bg-[#FAFAFA] p-6 text-[14.5px] md:text-[15px] text-earth-900 max-h-72 overflow-y-auto">
-                    <div id="aiResponseText" class="leading-relaxed"></div>
-                </div>
-            </div>
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14">
             
-            <!-- Umbrella Suggestions -->
-            <div id="aiSuggestions" class="flex flex-wrap gap-2.5 mt-3 transition-opacity duration-300">
-                <button type="button" class="suggestion-btn px-3 py-1.5 rounded-md bg-white border border-earth-200 text-[12.5px] font-medium text-earth-800 hover:bg-earth-100 hover:text-earth-900 transition-colors shadow-sm" data-query="Why should I hire Aryan?">Why hire Aryan?</button>
-                <button type="button" class="suggestion-btn px-3 py-1.5 rounded-md bg-white border border-earth-200 text-[12.5px] font-medium text-earth-800 hover:bg-earth-100 hover:text-earth-900 transition-colors shadow-sm" data-query="Walk me through his AI & ML pipelines.">Walk me through his AI & ML pipelines</button>
-                <button type="button" class="suggestion-btn px-3 py-1.5 rounded-md bg-white border border-earth-200 text-[12.5px] font-medium text-earth-800 hover:bg-earth-100 hover:text-earth-900 transition-colors shadow-sm" data-query="Summarize his competitive rigor.">Summarize his competitive rigor</button>
-            </div>
-        </div>
+            <!-- LEFT COLUMN: Bio & AI Chatbot -->
+            <div class="lg:col-span-5 flex flex-col">
+                
+                <!-- Hero Bio -->
+                <section class="mb-10">
+                    <h1 class="text-3xl md:text-4xl font-semibold text-earth-900 mb-4 tracking-tight leading-tight">Machine Learning & Systems Engineer</h1>
+                    <p class="text-[15px] text-earth-800 leading-relaxed">
+                        B.Tech in Electronics & Communication at LNCT, Bhopal. I engineer end-to-end AI infrastructure, from low-latency API gateways to real-time edge computer vision systems.
+                    </p>
+                </section>
+                
+                <!-- AI Command Palette -->
+                <div class="w-full bg-white rounded-xl border border-earth-200 overflow-hidden shadow-sm flex flex-col relative z-40">
+                    <div class="flex items-center px-4 py-3 gap-3 border-b border-earth-100">
+                        <i data-lucide="sparkles" class="w-4.5 h-4.5 text-earth-800/50 shrink-0"></i>
+                        <input 
+                            type="text" 
+                            id="aiInput" 
+                            placeholder="Ask my AI agent about my edge deployments or ML rigor..." 
+                            class="flex-1 bg-transparent border-none outline-none text-[14px] text-earth-900 placeholder:text-earth-800/50 py-1"
+                            autocomplete="off"
+                            onkeypress="handleEnter(event)"
+                        />
+                        <button onclick="submitQuery()" class="text-[11px] font-mono bg-earth-100 text-earth-800 px-2.5 py-1.5 rounded hover:bg-earth-200 transition-colors">
+                            Enter ↵
+                        </button>
+                    </div>
 
-        <!-- Scrollable Bento Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 relative z-10 mb-20">
-            
-            <!-- Experience -->
-            <div class="bento-card p-6 rounded-xl flex flex-col justify-between min-h-[170px] modal-trigger" data-target="modal-experience">
-                <div>
-                    <h3 class="font-mono text-[11.5px] font-bold uppercase tracking-wide text-earth-800/60 mb-3 flex justify-between">Experience <i data-lucide="external-link" class="w-3.5 h-3.5"></i></h3>
-                    <p class="text-[14.5px] md:text-[15px] font-semibold text-earth-900 mb-1.5">SDE Intern @ Entrepreneurs Woods</p>
-                    <p class="text-[13.5px] text-earth-800 line-clamp-3">Engineered robust microservices and automated data pipelines, cutting system integration errors by 20%.</p>
+                    <!-- AI Response Area -->
+                    <div id="aiResponseArea" class="hidden bg-[#FAFAFA] p-5 text-[14px] text-earth-900 max-h-80 overflow-y-auto">
+                        <div id="aiResponseText" class="leading-relaxed"></div>
+                    </div>
+                </div>
+                
+                <!-- Umbrella Suggestions -->
+                <div class="flex flex-wrap gap-2 mt-4 relative z-40">
+                    <button onclick="submitQuery('Why should I hire Aryan?')" class="px-3 py-1.5 rounded-md bg-white border border-earth-200 text-[12px] font-medium text-earth-800 hover:bg-earth-100 transition-colors shadow-sm">Why hire Aryan?</button>
+                    <button onclick="submitQuery('Walk me through his AI & ML pipelines.')" class="px-3 py-1.5 rounded-md bg-white border border-earth-200 text-[12px] font-medium text-earth-800 hover:bg-earth-100 transition-colors shadow-sm">Walk me through his AI & ML pipelines</button>
+                    <button onclick="submitQuery('Summarize his competitive rigor.')" class="px-3 py-1.5 rounded-md bg-white border border-earth-200 text-[12px] font-medium text-earth-800 hover:bg-earth-100 transition-colors shadow-sm">Summarize his competitive rigor</button>
                 </div>
             </div>
 
-            <!-- Projects -->
-            <div class="bento-card p-6 rounded-xl flex flex-col justify-between min-h-[170px] modal-trigger" data-target="modal-projects">
-                <div>
-                    <h3 class="font-mono text-[11.5px] font-bold uppercase tracking-wide text-earth-800/60 mb-3 flex justify-between">Projects <i data-lucide="external-link" class="w-3.5 h-3.5"></i></h3>
-                    <ul class="text-[13.5px] font-medium space-y-1.5 text-earth-900">
-                        <li>• AI-Shield Gateway</li>
-                        <li>• Runway FOD Detection</li>
-                        <li>• Telco Churn Predictor</li>
-                    </ul>
-                </div>
-            </div>
+            <!-- RIGHT COLUMN: 2x2 Bento Grid -->
+            <div class="lg:col-span-7">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-10">
+                    
+                    <!-- Experience -->
+                    <div class="bento-card p-6 rounded-xl flex flex-col justify-between min-h-[160px]" onclick="openModal('modal-experience')">
+                        <div>
+                            <h3 class="font-mono text-[11px] font-bold uppercase tracking-wide text-earth-800/60 mb-3 flex justify-between">Experience <i data-lucide="external-link" class="w-3.5 h-3.5"></i></h3>
+                            <p class="text-[15px] font-semibold text-earth-900 mb-1.5">SDE Intern @ Entrepreneurs Woods</p>
+                            <p class="text-[13px] text-earth-800 line-clamp-3">Engineered robust microservices and automated data pipelines, cutting system integration errors by 20%.</p>
+                        </div>
+                    </div>
 
-            <!-- Milestones -->
-            <div class="bento-card p-6 rounded-xl flex flex-col justify-between min-h-[170px] modal-trigger" data-target="modal-rigor">
-                <div>
-                    <h3 class="font-mono text-[11.5px] font-bold uppercase tracking-wide text-earth-800/60 mb-3 flex justify-between">Milestones <i data-lucide="external-link" class="w-3.5 h-3.5"></i></h3>
-                    <ul class="text-[13.5px] space-y-1.5 text-earth-800 font-medium">
-                        <li>HackWithInfy Round 2</li>
-                        <li>TCS NQT Cleared</li>
-                        <li>NPTEL Certified</li>
-                    </ul>
-                </div>
-            </div>
+                    <!-- Projects -->
+                    <div class="bento-card p-6 rounded-xl flex flex-col justify-between min-h-[160px]" onclick="openModal('modal-projects')">
+                        <div>
+                            <h3 class="font-mono text-[11px] font-bold uppercase tracking-wide text-earth-800/60 mb-3 flex justify-between">Projects <i data-lucide="external-link" class="w-3.5 h-3.5"></i></h3>
+                            <ul class="text-[13px] font-medium space-y-1.5 text-earth-900">
+                                <li>• AI-Shield Gateway</li>
+                                <li>• Runway FOD Detection</li>
+                                <li>• Telco Churn Predictor</li>
+                            </ul>
+                        </div>
+                    </div>
 
-            <!-- Core Competencies -->
-            <div class="bento-card p-6 rounded-xl flex flex-col justify-between min-h-[170px] modal-trigger" data-target="modal-stack">
-                <div>
-                    <h3 class="font-mono text-[11.5px] font-bold uppercase tracking-wide text-earth-800/60 mb-3 flex justify-between">Core Competencies <i data-lucide="external-link" class="w-3.5 h-3.5"></i></h3>
-                    <div class="flex flex-wrap gap-1.5">
-                        <span class="font-mono text-[10.5px] bg-earth-100 text-earth-900 px-2 py-0.5 rounded border border-earth-200">FastAPI</span>
-                        <span class="font-mono text-[10.5px] bg-earth-100 text-earth-900 px-2 py-0.5 rounded border border-earth-200">Redis</span>
-                        <span class="font-mono text-[10.5px] bg-earth-100 text-earth-900 px-2 py-0.5 rounded border border-earth-200">Docker</span>
-                        <span class="font-mono text-[10.5px] bg-earth-100 text-earth-900 px-2 py-0.5 rounded border border-earth-200">YOLOv8</span>
-                        <span class="font-mono text-[10.5px] bg-earth-100 text-earth-900 px-2 py-0.5 rounded border border-earth-200">TensorRT</span>
-                        <span class="font-mono text-[10.5px] bg-earth-100 text-earth-900 px-2 py-0.5 rounded border border-earth-200">XGBoost</span>
-                        <span class="font-mono text-[10.5px] bg-earth-100 text-earth-900 px-2 py-0.5 rounded border border-earth-200">AWS</span>
+                    <!-- Milestones -->
+                    <div class="bento-card p-6 rounded-xl flex flex-col justify-between min-h-[160px]" onclick="openModal('modal-rigor')">
+                        <div>
+                            <h3 class="font-mono text-[11px] font-bold uppercase tracking-wide text-earth-800/60 mb-3 flex justify-between">Milestones <i data-lucide="external-link" class="w-3.5 h-3.5"></i></h3>
+                            <ul class="text-[13px] space-y-1.5 text-earth-800 font-medium">
+                                <li>HackWithInfy Round 2</li>
+                                <li>TCS NQT Cleared</li>
+                                <li>NPTEL Certified</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Core Competencies -->
+                    <div class="bento-card p-6 rounded-xl flex flex-col justify-between min-h-[160px]" onclick="openModal('modal-stack')">
+                        <div>
+                            <h3 class="font-mono text-[11px] font-bold uppercase tracking-wide text-earth-800/60 mb-3 flex justify-between">Core Competencies <i data-lucide="external-link" class="w-3.5 h-3.5"></i></h3>
+                            <div class="flex flex-wrap gap-1.5">
+                                <span class="font-mono text-[10px] bg-earth-100 text-earth-900 px-2 py-0.5 rounded border border-earth-200">FastAPI</span>
+                                <span class="font-mono text-[10px] bg-earth-100 text-earth-900 px-2 py-0.5 rounded border border-earth-200">Redis</span>
+                                <span class="font-mono text-[10px] bg-earth-100 text-earth-900 px-2 py-0.5 rounded border border-earth-200">Docker</span>
+                                <span class="font-mono text-[10px] bg-earth-100 text-earth-900 px-2 py-0.5 rounded border border-earth-200">YOLOv8</span>
+                                <span class="font-mono text-[10px] bg-earth-100 text-earth-900 px-2 py-0.5 rounded border border-earth-200">TensorRT</span>
+                                <span class="font-mono text-[10px] bg-earth-100 text-earth-900 px-2 py-0.5 rounded border border-earth-200">XGBoost</span>
+                                <span class="font-mono text-[10px] bg-earth-100 text-earth-900 px-2 py-0.5 rounded border border-earth-200">AWS</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Restoring Scrollability: A graceful minimalist footer -->
-        <footer class="border-t border-earth-200 pt-10 pb-8 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
+        <!-- Scrollable Footer -->
+        <footer class="border-t border-earth-200 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left mt-8 relative z-40">
             <div>
                 <h4 class="text-earth-900 font-medium text-[14px]">Aryan Tiwari</h4>
                 <p class="text-earth-800 text-[13px] mt-1">Based in Bhopal, India • B.Tech ECE (Class of '27)</p>
             </div>
-            <a href="mailto:aryantiwari.work@gmail.com" class="text-[13px] font-mono text-earth-800 bg-earth-100 px-4 py-2 rounded-md hover:bg-earth-200 transition-colors">
-                aryantiwari.work@gmail.com
+            <a href="mailto:aryantiw.04@gmail.com" class="text-[13px] font-mono text-earth-800 bg-earth-100 px-4 py-2 rounded-md hover:bg-earth-200 transition-colors">
+                aryantiw.04@gmail.com
             </a>
         </footer>
     </main>
 
-    <!-- Detailed Modals -->
+    <!-- Modals -->
     
     <!-- Experience Modal -->
     <div id="modal-experience" class="fixed inset-0 z-[100] hidden items-center justify-center p-4">
-        <div class="absolute inset-0 bg-earth-900/30 modal-bg modal-close"></div>
+        <div class="absolute inset-0 bg-earth-900/30 modal-bg" onclick="closeModal('modal-experience')"></div>
         <div class="relative w-full max-w-xl bg-white border border-earth-200 rounded-xl p-6 md:p-8 shadow-2xl max-h-[85vh] overflow-y-auto">
-            <button class="absolute top-5 right-5 text-earth-800/50 hover:text-earth-900 modal-close"><i data-lucide="x" class="w-5 h-5"></i></button>
-            <h2 class="text-xl md:text-2xl font-semibold mb-1 text-earth-900">SDE Intern</h2>
+            <button class="absolute top-5 right-5 text-earth-800/50 hover:text-earth-900" onclick="closeModal('modal-experience')"><i data-lucide="x" class="w-5 h-5"></i></button>
+            <h2 class="text-xl font-semibold mb-1 text-earth-900">SDE Intern</h2>
             <p class="text-[12px] font-mono text-terracotta mb-6">ENTREPRENEURS WOODS (KLIC) • 3 MONTHS</p>
             <ul class="text-[14px] text-earth-800 space-y-4 list-disc pl-5 marker:text-earth-800/40">
                 <li><strong class="text-earth-900 font-medium">Microservice Architecture:</strong> Architected and rigorously tested automated data-fetching microservices via REST APIs, maintaining 100% uptime.</li>
@@ -211,45 +226,61 @@
         </div>
     </div>
 
-    <!-- Projects Modal -->
+    <!-- Projects Modal (Now featuring 4 distinct projects) -->
     <div id="modal-projects" class="fixed inset-0 z-[100] hidden items-center justify-center p-4">
-        <div class="absolute inset-0 bg-earth-900/30 modal-bg modal-close"></div>
+        <div class="absolute inset-0 bg-earth-900/30 modal-bg" onclick="closeModal('modal-projects')"></div>
         <div class="relative w-full max-w-2xl bg-white border border-earth-200 rounded-xl p-6 md:p-8 shadow-2xl max-h-[85vh] overflow-y-auto">
-            <button class="absolute top-5 right-5 text-earth-800/50 hover:text-earth-900 modal-close"><i data-lucide="x" class="w-5 h-5"></i></button>
-            <h2 class="text-xl md:text-2xl font-semibold mb-6 text-earth-900">Projects & Architectures</h2>
+            <button class="absolute top-5 right-5 text-earth-800/50 hover:text-earth-900" onclick="closeModal('modal-projects')"><i data-lucide="x" class="w-5 h-5"></i></button>
+            <h2 class="text-xl font-semibold mb-6 text-earth-900">Projects & Architectures</h2>
             <div class="space-y-4">
+                
+                <!-- Project 1: Open Shield AI -->
                 <div class="p-5 bg-canvas rounded-lg border border-earth-100">
                     <div class="flex justify-between items-start mb-2">
                         <strong class="text-[15px] text-earth-900">AI-Shield (Enterprise GenAI Gateway)</strong>
-                        <a href="https://github.com/Aryan-DScodes" target="_blank" class="text-[11px] font-mono bg-earth-900 text-white px-2 py-1 rounded hover:bg-earth-800 transition-colors flex items-center gap-1"><i data-lucide="github" class="w-3 h-3"></i> Code</a>
+                        <a href="https://github.com/Aryan-DScodes/Open-Shield-AI" target="_blank" class="text-[11px] font-mono bg-earth-900 text-white px-2 py-1 rounded hover:bg-earth-800 transition-colors flex items-center gap-1 shrink-0 ml-3"><i data-lucide="github" class="w-3 h-3"></i> Code</a>
                     </div>
                     <p class="text-[13.5px] text-earth-800">Enterprise AI proxy. Intercepts payloads for local PII redaction (Gaussian blur) via Vector Search & YOLO. Achieves sub-50ms latency via Redis semantic caching.</p>
                 </div>
+                
+                <!-- Project 2: Runway FOD -->
                 <div class="p-5 bg-canvas rounded-lg border border-earth-100">
                     <div class="flex justify-between items-start mb-2">
                         <strong class="text-[15px] text-earth-900">Runway FOD Detection</strong>
-                        <a href="https://github.com/Aryan-DScodes" target="_blank" class="text-[11px] font-mono bg-earth-900 text-white px-2 py-1 rounded hover:bg-earth-800 transition-colors flex items-center gap-1"><i data-lucide="github" class="w-3 h-3"></i> Code</a>
+                        <a href="https://github.com/Aryan-DScodes/Foreign-Object-Debris-FOD-Detection" target="_blank" class="text-[11px] font-mono bg-earth-900 text-white px-2 py-1 rounded hover:bg-earth-800 transition-colors flex items-center gap-1 shrink-0 ml-3"><i data-lucide="github" class="w-3 h-3"></i> Code</a>
                     </div>
                     <p class="text-[13.5px] text-earth-800">Safety-critical edge CV system. Fine-tuned YOLOv8s (960px). Applied Albumentations (RandomFog). Exported to TensorRT (FP16) for onboard UAV deployment via ROS2.</p>
                 </div>
+                
+                <!-- Project 3: Telco Churn -->
                 <div class="p-5 bg-canvas rounded-lg border border-earth-100">
                     <div class="flex justify-between items-start mb-2">
-                        <strong class="text-[15px] text-earth-900">Telco Churn & Customer Segmentation</strong>
-                        <a href="https://github.com/Aryan-DScodes" target="_blank" class="text-[11px] font-mono bg-earth-900 text-white px-2 py-1 rounded hover:bg-earth-800 transition-colors flex items-center gap-1"><i data-lucide="github" class="w-3 h-3"></i> Code</a>
+                        <strong class="text-[15px] text-earth-900">Telco Churn Predictor</strong>
+                        <a href="https://github.com/Aryan-DScodes/Telco-churn-MLops" target="_blank" class="text-[11px] font-mono bg-earth-900 text-white px-2 py-1 rounded hover:bg-earth-800 transition-colors flex items-center gap-1 shrink-0 ml-3"><i data-lucide="github" class="w-3 h-3"></i> Code</a>
                     </div>
-                    <p class="text-[13.5px] text-earth-800">End-to-End pipelines utilizing K-Means optimization, PCA/t-SNE visualization, and XGBoost predictors. Deployed via FastAPI & MLflow on AWS (EC2/S3).</p>
+                    <p class="text-[13.5px] text-earth-800">End-to-End MLOps pipeline utilizing XGBoost predictors. Deployed via FastAPI & MLflow on AWS (EC2/S3) for robust customer churn classification.</p>
                 </div>
+
+                <!-- Project 4: Customer Segmentation -->
+                <div class="p-5 bg-canvas rounded-lg border border-earth-100">
+                    <div class="flex justify-between items-start mb-2">
+                        <strong class="text-[15px] text-earth-900">Customer Segmentation Modeling</strong>
+                        <a href="https://github.com/Aryan-DScodes/Customer-Segmentation-Predictive-Modeling" target="_blank" class="text-[11px] font-mono bg-earth-900 text-white px-2 py-1 rounded hover:bg-earth-800 transition-colors flex items-center gap-1 shrink-0 ml-3"><i data-lucide="github" class="w-3 h-3"></i> Code</a>
+                    </div>
+                    <p class="text-[13.5px] text-earth-800">Unsupervised and supervised pipeline utilizing K-Means optimization (Elbow/Silhouette) and PCA/t-SNE visualization, validated via Random Forest.</p>
+                </div>
+                
             </div>
         </div>
     </div>
 
     <!-- Milestones Modal -->
     <div id="modal-rigor" class="fixed inset-0 z-[100] hidden items-center justify-center p-4">
-        <div class="absolute inset-0 bg-earth-900/30 modal-bg modal-close"></div>
+        <div class="absolute inset-0 bg-earth-900/30 modal-bg" onclick="closeModal('modal-rigor')"></div>
         <div class="relative w-full max-w-lg bg-white border border-earth-200 rounded-xl p-6 md:p-8 shadow-2xl max-h-[85vh] overflow-y-auto">
-            <button class="absolute top-5 right-5 text-earth-800/50 hover:text-earth-900 modal-close"><i data-lucide="x" class="w-5 h-5"></i></button>
-            <h2 class="text-xl md:text-2xl font-semibold mb-6 text-earth-900">Milestones & Certifications</h2>
-            <ul class="text-[14.5px] space-y-5 text-earth-800">
+            <button class="absolute top-5 right-5 text-earth-800/50 hover:text-earth-900" onclick="closeModal('modal-rigor')"><i data-lucide="x" class="w-5 h-5"></i></button>
+            <h2 class="text-xl font-semibold mb-6 text-earth-900">Milestones & Certifications</h2>
+            <ul class="text-[14px] space-y-5 text-earth-800">
                 <li class="flex items-start gap-3.5"><i data-lucide="check-circle-2" class="w-5 h-5 text-terracotta shrink-0 mt-0.5"></i> <div><strong class="text-earth-900 block font-medium">HackWithInfy (Round 2)</strong>Qualified by successfully passing 100% of test cases in initial algorithmic challenges.</div></li>
                 <li class="flex items-start gap-3.5"><i data-lucide="check-circle-2" class="w-5 h-5 text-terracotta shrink-0 mt-0.5"></i> <div><strong class="text-earth-900 block font-medium">TCS NQT</strong>Successfully cleared the comprehensive TCS National Qualifier Test.</div></li>
                 <li class="flex items-start gap-3.5"><i data-lucide="check-circle-2" class="w-5 h-5 text-terracotta shrink-0 mt-0.5"></i> <div><strong class="text-earth-900 block font-medium">NPTEL Certification</strong>Certified in Data Structures and Algorithms in Python (March 2026).</div></li>
@@ -260,21 +291,21 @@
 
     <!-- Core Competencies Modal -->
     <div id="modal-stack" class="fixed inset-0 z-[100] hidden items-center justify-center p-4">
-        <div class="absolute inset-0 bg-earth-900/30 modal-bg modal-close"></div>
+        <div class="absolute inset-0 bg-earth-900/30 modal-bg" onclick="closeModal('modal-stack')"></div>
         <div class="relative w-full max-w-xl bg-white border border-earth-200 rounded-xl p-6 md:p-8 shadow-2xl max-h-[85vh] overflow-y-auto">
-            <button class="absolute top-5 right-5 text-earth-800/50 hover:text-earth-900 modal-close"><i data-lucide="x" class="w-5 h-5"></i></button>
-            <h2 class="text-xl md:text-2xl font-semibold mb-6 text-earth-900">Core Competencies</h2>
-            <div class="text-[14.5px] text-earth-800 space-y-6">
+            <button class="absolute top-5 right-5 text-earth-800/50 hover:text-earth-900" onclick="closeModal('modal-stack')"><i data-lucide="x" class="w-5 h-5"></i></button>
+            <h2 class="text-xl font-semibold mb-6 text-earth-900">Core Competencies</h2>
+            <div class="text-[14px] text-earth-800 space-y-6">
                 <div>
-                    <strong class="text-earth-900 block text-[15.5px] mb-1.5 font-medium">Backend API & MLOps</strong>
+                    <strong class="text-earth-900 block text-[15px] mb-1.5 font-medium">Backend API & MLOps</strong>
                     <p class="leading-relaxed">I build high-throughput microservices using <strong class="font-semibold">FastAPI</strong>, backed by <strong class="font-semibold">Redis</strong> for sub-50ms semantic caching. I orchestrate the model lifecycle using <strong class="font-semibold">MLflow</strong> and containerize environments with <strong class="font-semibold">Docker</strong>.</p>
                 </div>
                 <div>
-                    <strong class="text-earth-900 block text-[15.5px] mb-1.5 font-medium">Edge Computer Vision</strong>
+                    <strong class="text-earth-900 block text-[15px] mb-1.5 font-medium">Edge Computer Vision</strong>
                     <p class="leading-relaxed">I fine-tune <strong class="font-semibold">YOLOv8</strong> architectures for high-resolution (960px) small-object detection. I compile these models into <strong class="font-semibold">TensorRT (FP16)</strong> engines for real-time inference on edge hardware.</p>
                 </div>
                 <div>
-                    <strong class="text-earth-900 block text-[15.5px] mb-1.5 font-medium">Predictive Modeling & Cloud</strong>
+                    <strong class="text-earth-900 block text-[15px] mb-1.5 font-medium">Predictive Modeling & Cloud</strong>
                     <p class="leading-relaxed">I construct end-to-end classification pipelines—from strict EDA, anomaly detection, and scaling—to deploying <strong class="font-semibold">XGBoost</strong> and Random Forest predictors on <strong class="font-semibold">AWS (EC2 & S3)</strong>.</p>
                 </div>
             </div>
@@ -282,92 +313,74 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            lucide.createIcons();
+        // Render Icons
+        lucide.createIcons();
 
-            // ==========================================
-            // PASTE YOUR CLOUDFLARE WORKER URL HERE
-            // ==========================================
-            const WORKER_URL = "https://aryan-portfolio-ai.aryantiwari233.workers.dev
-"; 
+        // ==========================================
+        // PASTE YOUR CLOUDFLARE WORKER URL BELOW
+        // ==========================================
+        const WORKER_URL = "https://YOUR_WORKER_URL_HERE"; 
 
-            const aiInput = document.getElementById('aiInput');
-            const aiForm = document.getElementById('aiForm');
-            const overlay = document.getElementById('aiOverlay');
-            const wrapper = document.getElementById('searchWrapper');
-            const suggestions = document.getElementById('aiSuggestions');
+        // Modals Logic
+        function openModal(id) {
+            document.getElementById(id).classList.remove('hidden');
+            document.getElementById(id).classList.add('flex');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+            document.getElementById(id).classList.remove('flex');
+        }
+
+        // AI Chatbot Logic
+        function handleEnter(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault(); // Prevents page reload
+                submitQuery();
+            }
+        }
+
+        async function submitQuery(optionalPresetQuery) {
+            const inputEl = document.getElementById('aiInput');
             const responseArea = document.getElementById('aiResponseArea');
             const responseText = document.getElementById('aiResponseText');
+            
+            if (optionalPresetQuery) {
+                inputEl.value = optionalPresetQuery;
+            }
 
-            // Overlay Logic
-            aiInput.addEventListener('focus', () => {
-                overlay.classList.add('active');
-                wrapper.classList.add('active');
-                suggestions.style.opacity = '0';
-            });
+            const query = inputEl.value.trim();
+            if (!query) return;
 
-            overlay.addEventListener('click', () => {
-                overlay.classList.remove('active');
-                wrapper.classList.remove('active');
-                suggestions.style.opacity = '1';
-            });
+            // Expand response area
+            responseArea.classList.remove('hidden');
+            responseText.innerHTML = '<span class="animate-pulse text-earth-800/60">Connecting to AI Agent...</span>';
 
-            // Handle AI Request
-            aiForm.addEventListener('submit', async (e) => {
-                e.preventDefault(); 
+            if (WORKER_URL.includes("YOUR_WORKER_URL_HERE")) {
+                responseText.innerHTML = '<span class="text-terracotta font-medium">Error: Please paste your Cloudflare Worker URL in the HTML script at the bottom.</span>';
+                return;
+            }
+
+            try {
+                const res = await fetch(WORKER_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ query: query })
+                });
                 
-                const query = aiInput.value.trim();
-                if (!query) return;
-
-                responseArea.classList.remove('hidden');
-                responseText.innerHTML = '<span class="animate-pulse text-earth-800/50">Processing request...</span>';
-
-                try {
-                    const res = await fetch(WORKER_URL, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ query: query })
-                    });
-                    
-                    if (!res.ok) throw new Error("Network error");
-                    const data = await res.json();
-                    responseText.innerHTML = data.response || "No response received.";
-                } catch (err) {
-                    responseText.innerHTML = `<span class="text-red-500 font-medium">Error connecting to AI backend. Make sure your WORKER_URL is correct and Cloudflare worker is deployed.</span>`;
+                if (!res.ok) throw new Error("Network error");
+                
+                const data = await res.json();
+                
+                if (data.response) {
+                    responseText.innerHTML = data.response;
+                } else if (data.error) {
+                    responseText.innerHTML = '<span class="text-terracotta font-medium">' + data.error + '</span>';
                 }
-            });
-
-            // Bind Suggestion Chips
-            document.querySelectorAll('.suggestion-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    aiInput.value = btn.getAttribute('data-query');
-                    aiInput.focus();
-                    aiForm.dispatchEvent(new Event('submit'));
-                });
-            });
-
-            // Modal Logic
-            document.querySelectorAll('.modal-trigger').forEach(card => {
-                card.addEventListener('click', () => {
-                    const targetId = card.getAttribute('data-target');
-                    const modal = document.getElementById(targetId);
-                    if (modal) {
-                        modal.classList.remove('hidden');
-                        modal.classList.add('flex');
-                    }
-                });
-            });
-
-            document.querySelectorAll('.modal-close').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const modal = e.target.closest('.fixed.z-\\[100\\]');
-                    if (modal) {
-                        modal.classList.add('hidden');
-                        modal.classList.remove('flex');
-                    }
-                });
-            });
-        });
+            } catch (err) {
+                responseText.innerHTML = '<span class="text-terracotta font-medium">Failed to connect to the AI backend. Check if your WORKER_URL is correct.</span>';
+            }
+        }
     </script>
 </body>
 </html>
