@@ -297,7 +297,7 @@
         // ==========================================
         // PASTE YOUR CLOUDFLARE WORKER URL BELOW
         // ==========================================
-        const WORKER_URL = "https://YOUR_WORKER_URL_HERE"; 
+        const WORKER_URL = "https://aryan-portfolio-ai.aryantiwari233.workers.dev"; 
 
         // Modals Logic
         function openModal(id) {
@@ -350,7 +350,7 @@
             responseArea.classList.remove('hidden');
             responseText.innerHTML = '<span class="animate-pulse text-earth-800/60">Connecting to AI Agent...</span>';
 
-            if (WORKER_URL.includes("https://aryan-portfolio-ai.aryantiwari233.workers.dev")) {
+            if (WORKER_URL.includes("YOUR_WORKER_URL_HERE")) {
                 responseText.innerHTML = '<span class="text-terracotta font-medium">Error: Please paste your Cloudflare Worker URL in the HTML script.</span>';
                 return;
             }
